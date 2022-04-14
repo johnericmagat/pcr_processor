@@ -108,6 +108,7 @@
     </Compile>
     <Compile Include="BAL\UsersBAL.cs" />
     <Compile Include="DAL\UsersDAL.cs" />
+    <Compile Include="Helper\WriteLogFileHelper.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
