@@ -1,20 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using pcr_processor.Model;
-using pcr_processor.BAL;
+﻿using pcr_processor.BAL;
+using pcr_processor.Helper;
+using System;
 using System.Data;
+using System.Windows;
 
 namespace pcr_processor
 {
@@ -40,9 +28,9 @@ namespace pcr_processor
 				DataTable users = new DataTable();
 				users = UsersBAL.FilterUsers();
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				
+				WriteLogFileHelper.WriteLogFile("Error: " + ex.Message.ToString());
 			}
 		}
 	}
