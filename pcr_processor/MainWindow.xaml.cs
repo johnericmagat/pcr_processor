@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using pcr_processor.Model;
+using pcr_processor.BAL;
+using System.Data;
 
 namespace pcr_processor
 {
@@ -23,6 +26,24 @@ namespace pcr_processor
 		public MainWindow()
 		{
 			InitializeComponent();
+		}
+
+		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+		{
+			FilterUsers();
+		}
+
+		private void FilterUsers()
+		{
+			try
+			{
+				DataTable users = new DataTable();
+				users = UsersBAL.FilterUsers();
+			}
+			catch (Exception)
+			{
+				
+			}
 		}
 	}
 }
