@@ -1,5 +1,6 @@
 ﻿using pcr_processor.BAL;
 using pcr_processor.Helper;
+using pcr_processor.Model;
 using System;
 using System.Data;
 using System.Globalization;
@@ -35,17 +36,38 @@ namespace pcr_processor
 				users = UsersBAL.FilterUsers();
 
 				double cnt = 0;
-				double inserted = 0;
+				double updated = 0;
 				bool hasError = false;
 				int errorCount = 0;
 
-				foreach (DataRow row in users.Rows)
+				foreach (DataRow usersRow in users.Rows)
 				{
 					cnt = users.Rows.Count;
 
-					inserted++;
+					int lastOrderNumber = OrdersBAL.GetLastOrderNumberSeries(usersRow[0].ToString());
 
-					double val = inserted / (cnt - errorCount);
+					DataTable orders = new DataTable();
+					orders = OrdersBAL.FilterOrders(usersRow[0].ToString());
+
+					foreach (DataRow ordersRow in orders.Rows)
+					{
+						DataTable ordersByLabId = new DataTable();
+						ordersByLabId = OrdersBAL.FilterOrdersByLaboratoryId(ordersRow[0].ToString());
+
+						foreach (DataRow ordersByLabIdRow in ordersByLabId.Rows)
+						{
+							lastOrderNumber++;
+
+							OrdersModel objOrders = new OrdersModel();
+							objOrders.Id = Int32.Parse(ordersByLabIdRow[0].ToString());
+							objOrders.Order_number = usersRow[0].ToString() + "-" + lastOrderNumber.ToString();
+							OrdersBAL.UpdateOrders(objOrders);
+						}
+					}
+
+					updated++;
+
+					double val = updated / (cnt - errorCount);
 					double progress = val * 100;
 
 					ProgProcess.Dispatcher.Invoke(() => ProgProcess.Value = progress,

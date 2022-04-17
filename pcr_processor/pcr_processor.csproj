@@ -106,7 +106,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BAL\OrdersBAL.cs" />
     <Compile Include="BAL\UsersBAL.cs" />
+    <Compile Include="DAL\OrdersDAL.cs" />
     <Compile Include="DAL\UsersDAL.cs" />
     <Compile Include="Helper\WriteLogFileHelper.cs" />
     <Compile Include="MainWindow.xaml.cs">
