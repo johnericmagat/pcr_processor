@@ -59,6 +59,16 @@ namespace pcr_processor
 			Process();
 		}
 
+		private void BtnClose_Click(object sender, RoutedEventArgs e)
+		{
+			MessageBoxResult result = MessageBox.Show("Would you like to close this application?", "APPLICATION TERMINATION",
+				MessageBoxButton.YesNo, MessageBoxImage.Question);
+			if (result == MessageBoxResult.Yes)
+			{
+				Application.Current.Shutdown();
+			}
+		}
+
 		private void Process()
 		{
 			try
