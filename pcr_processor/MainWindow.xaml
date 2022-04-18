@@ -41,16 +41,16 @@
                     <TextBox x:Name="TxtUser" Style="{StaticResource TextFieldStyle}"/>
                 </DockPanel>
                 <DockPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left">
-                    <Label Content="User Records:" Style="{StaticResource LabelFieldStyle}"/>
+                    <Label Content="Records:" Style="{StaticResource LabelFieldStyle}"/>
                     <TextBox x:Name="TxtUserRecords" Style="{StaticResource TextFieldStyle}"/>
                 </DockPanel>
                 <DockPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left">
-                    <Label Content="User Progress:" Style="{StaticResource LabelFieldStyle}"/>
+                    <Label Content="Progress:" Style="{StaticResource LabelFieldStyle}"/>
                     <ProgressBar x:Name="ProgUserProcess" Width="380" Background="#FFFFFF"/>
                     <TextBlock Text="{Binding ElementName=ProgUserProcess, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2 0 0 0"/>
                 </DockPanel>
-                <DockPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left">
-                    <Label Content="Overall Progress:" Style="{StaticResource LabelFieldStyle}"/>
+                <DockPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left">
+                    <Label Content="Overall:" Style="{StaticResource LabelFieldStyle}"/>
                     <ProgressBar x:Name="ProgOverallProcess" Width="380" Background="#FFFFFF"/>
                     <TextBlock Text="{Binding ElementName=ProgOverallProcess, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="2 0 0 0"/>
                 </DockPanel>
