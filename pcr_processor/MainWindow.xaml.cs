@@ -1,9 +1,12 @@
 ﻿using pcr_processor.BAL;
 using pcr_processor.Helper;
 using pcr_processor.Model;
+using Squirrel;
 using System;
+using System.Configuration;
 using System.Data;
 using System.Globalization;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -17,6 +20,34 @@ namespace pcr_processor
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			Task.Run(() => CheckAndApplyUpdate()).GetAwaiter().GetResult();
+			this.Title += $" v.{GetVersionHelper.GetVersion()}";
+		}
+
+		private async Task CheckAndApplyUpdate()
+		{
+			try
+			{
+				bool updated = false;
+				using (var updateManager = new UpdateManager(ConfigurationManager.AppSettings["fileServerLocation"].ToString()))
+				{
+					var updateInfo = await updateManager.CheckForUpdate();
+					if (updateInfo.ReleasesToApply != null &&
+						updateInfo.ReleasesToApply.Count > 0)
+					{
+						var releaseEntry = await updateManager.UpdateApp();
+						updated = true;
+					}
+				}
+				if (updated)
+				{
+					UpdateManager.RestartApp("pcr_processor.exe");
+				}
+			}
+			catch
+			{
+			}
 		}
 
 		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
