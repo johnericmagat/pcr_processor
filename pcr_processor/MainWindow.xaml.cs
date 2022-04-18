@@ -50,25 +50,6 @@ namespace pcr_processor
 			}
 		}
 
-		private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
-		{
-		}
-
-		private void BtnProcess_Click(object sender, RoutedEventArgs e)
-		{
-			Process();
-		}
-
-		private void BtnClose_Click(object sender, RoutedEventArgs e)
-		{
-			MessageBoxResult result = MessageBox.Show("Would you like to close this application?", "APPLICATION TERMINATION",
-				MessageBoxButton.YesNo, MessageBoxImage.Question);
-			if (result == MessageBoxResult.Yes)
-			{
-				Application.Current.Shutdown();
-			}
-		}
-
 		private void Process()
 		{
 			try
@@ -83,6 +64,8 @@ namespace pcr_processor
 				{
 					overAllCount = users.Rows.Count;
 
+					TxtUser.Text = usersRow[0].ToString();
+
 					int lastOrderNumber = OrdersBAL.GetLastOrderNumberSeries(usersRow[0].ToString());
 
 					DataTable orders = new DataTable();
@@ -94,6 +77,8 @@ namespace pcr_processor
 					foreach (DataRow ordersRow in orders.Rows)
 					{
 						count = orders.Rows.Count;
+
+						TxtUserRecords.Text = count.ToString();
 
 						DataTable ordersByLabId = new DataTable();
 						ordersByLabId = OrdersBAL.FilterOrdersByLaboratoryId(ordersRow[0].ToString());
@@ -134,6 +119,26 @@ namespace pcr_processor
 			catch (Exception ex)
 			{
 				WriteLogFileHelper.WriteLogFile("Error: " + ex.Message.ToString());
+			}
+		}
+
+		private void BtnProcess_Click(object sender, RoutedEventArgs e)
+		{
+			MessageBoxResult result = MessageBox.Show("Start processing?", "PROCESS",
+				MessageBoxButton.YesNo, MessageBoxImage.Question);
+			if (result == MessageBoxResult.Yes)
+			{
+				Process();
+			}
+		}
+
+		private void BtnClose_Click(object sender, RoutedEventArgs e)
+		{
+			MessageBoxResult result = MessageBox.Show("Close this application?", "CLOSE",
+				MessageBoxButton.YesNo, MessageBoxImage.Question);
+			if (result == MessageBoxResult.Yes)
+			{
+				Application.Current.Shutdown();
 			}
 		}
 	}
