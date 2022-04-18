@@ -35,22 +35,25 @@ namespace pcr_processor
 				DataTable users = new DataTable();
 				users = UsersBAL.FilterUsers();
 
-				double cnt = 0;
-				double updated = 0;
-				bool hasError = false;
-				int errorCount = 0;
+				double overAllCount = 0;
+				double overAllUpdated = 0;
 
 				foreach (DataRow usersRow in users.Rows)
 				{
-					cnt = users.Rows.Count;
+					overAllCount = users.Rows.Count;
 
 					int lastOrderNumber = OrdersBAL.GetLastOrderNumberSeries(usersRow[0].ToString());
 
 					DataTable orders = new DataTable();
 					orders = OrdersBAL.FilterOrders(usersRow[0].ToString());
 
+					double count = 0;
+					double updated = 0;
+
 					foreach (DataRow ordersRow in orders.Rows)
 					{
+						count = orders.Rows.Count;
+
 						DataTable ordersByLabId = new DataTable();
 						ordersByLabId = OrdersBAL.FilterOrdersByLaboratoryId(ordersRow[0].ToString());
 
@@ -63,25 +66,28 @@ namespace pcr_processor
 							objOrders.Order_number = usersRow[0].ToString() + "-" + lastOrderNumber.ToString();
 							OrdersBAL.UpdateOrders(objOrders);
 						}
+
+						updated++;
+
+						double val = updated / count;
+						double progress = val * 100;
+
+						ProgUserProcess.Dispatcher.Invoke(() => ProgUserProcess.Value = progress,
+							DispatcherPriority.Background);
 					}
 
-					updated++;
+					overAllUpdated++;
 
-					double val = updated / (cnt - errorCount);
-					double progress = val * 100;
+					double overAllVal = overAllUpdated / overAllCount;
+					double overAllProgress = overAllVal * 100;
 
-					ProgProcess.Dispatcher.Invoke(() => ProgProcess.Value = progress,
+					ProgOverallProcess.Dispatcher.Invoke(() => ProgOverallProcess.Value = overAllProgress,
 						DispatcherPriority.Background);
 				}
 
 				string content = " record(s) has been successfully updated.";
 
-				if (hasError)
-				{
-					content = " record(s) has been successfully updated.\nThere is/are {0} record(s) not updated.";
-					content = String.Format(content, errorCount);
-				}
-				MessageBox.Show((cnt - errorCount).ToString(CultureInfo.InvariantCulture) + content, "PROCESS",
+				MessageBox.Show(overAllCount.ToString(CultureInfo.InvariantCulture) + content, "PROCESS",
 					MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			catch (Exception ex)
