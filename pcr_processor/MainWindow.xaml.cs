@@ -113,7 +113,7 @@ namespace pcr_processor
 
 				string content = " record(s) has been successfully updated.";
 
-				MessageBox.Show(overAllCount.ToString(CultureInfo.InvariantCulture) + content, "PROCESS",
+				MessageBox.Show(overAllCount.ToString(CultureInfo.InvariantCulture) + content, "DONE",
 					MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			catch (Exception ex)
