@@ -64,12 +64,12 @@ namespace pcr_processor
 				{
 					overAllCount = users.Rows.Count;
 
-					TxtUser.Text = usersRow[0].ToString();
+					TxtUser.Text = usersRow[1].ToString();
 
-					int lastOrderNumber = OrdersBAL.GetLastOrderNumberSeries(usersRow[0].ToString());
+					int lastOrderNumber = OrdersBAL.GetLastOrderNumberSeries(usersRow[1].ToString());
 
 					DataTable orders = new DataTable();
-					orders = OrdersBAL.FilterOrders(usersRow[0].ToString());
+					orders = OrdersBAL.FilterOrders(usersRow[1].ToString());
 
 					double count = 0;
 					double updated = 0;
@@ -89,7 +89,7 @@ namespace pcr_processor
 
 							OrdersModel objOrders = new OrdersModel();
 							objOrders.Id = Int32.Parse(ordersByLabIdRow[0].ToString());
-							objOrders.Order_number = usersRow[0].ToString() + "-" + lastOrderNumber.ToString();
+							objOrders.Order_number = usersRow[1].ToString() + "-" + lastOrderNumber.ToString();
 							OrdersBAL.UpdateOrders(objOrders);
 						}
 
@@ -102,7 +102,7 @@ namespace pcr_processor
 							DispatcherPriority.Background);
 					}
 
-					overAllUpdated++;
+					overAllUpdated += UsersBAL.UpdateUsers(Int32.Parse(usersRow[0].ToString()));
 
 					double overAllVal = overAllUpdated / overAllCount;
 					double overAllProgress = overAllVal * 100;

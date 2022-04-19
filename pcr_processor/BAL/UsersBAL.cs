@@ -9,5 +9,10 @@ namespace pcr_processor.BAL
 		{
 			return UsersDAL.FilterUsers("FilterUsers");
 		}
+
+		public static int UpdateUsers(int id)
+		{
+			return UsersDAL.UpdateUsers("UpdateUsers", id);
+		}
 	}
 }

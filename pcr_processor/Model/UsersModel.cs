@@ -14,5 +14,6 @@ namespace pcr_processor.Model
 		public DateTime Updated_at { get; set; }
 		public String User_type { get; set; }
 		public String Username { get; set; }
+		public Int32 Process_flag { get; set; }
 	}
 }
