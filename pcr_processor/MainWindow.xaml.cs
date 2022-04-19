@@ -102,6 +102,39 @@ namespace pcr_processor
 							DispatcherPriority.Background);
 					}
 
+					// Added another loop for username/order_number with multiple dash on suffix
+
+					DataTable ordersDashOne = new DataTable();
+					ordersDashOne = OrdersBAL.FilterOrdersDashOne(usersRow[1].ToString());
+
+					foreach (DataRow ordersDashOneRow in ordersDashOne.Rows)
+					{
+						count = ordersDashOne.Rows.Count;
+
+						TxtUserRecords.Text = count.ToString();
+
+						DataTable ordersByLabId = new DataTable();
+						ordersByLabId = OrdersBAL.FilterOrdersByLaboratoryId(ordersDashOneRow[0].ToString());
+
+						foreach (DataRow ordersByLabIdRow in ordersByLabId.Rows)
+						{
+							lastOrderNumber++;
+
+							OrdersModel objOrders = new OrdersModel();
+							objOrders.Id = Int32.Parse(ordersByLabIdRow[0].ToString());
+							objOrders.Order_number = usersRow[1].ToString() + "-" + lastOrderNumber.ToString();
+							OrdersBAL.UpdateOrders(objOrders);
+						}
+
+						updated++;
+
+						double val = updated / count;
+						double progress = val * 100;
+
+						ProgUserProcess.Dispatcher.Invoke(() => ProgUserProcess.Value = progress,
+							DispatcherPriority.Background);
+					}
+
 					overAllUpdated += UsersBAL.UpdateUsers(Int32.Parse(usersRow[0].ToString()));
 
 					double overAllVal = overAllUpdated / overAllCount;

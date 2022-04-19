@@ -11,6 +11,11 @@ namespace pcr_processor.BAL
 			return OrdersDAL.FilterOrders("FilterOrders", OrderNumber);
 		}
 
+		public static DataTable FilterOrdersDashOne(string OrderNumber)
+		{
+			return OrdersDAL.FilterOrdersDashOne("FilterOrdersDashOne", OrderNumber);
+		}
+
 		public static DataTable FilterOrdersByLaboratoryId(string LaboratoryId)
 		{
 			return OrdersDAL.FilterOrdersByLaboratoryId("FilterOrdersByLaboratoryId", LaboratoryId);
