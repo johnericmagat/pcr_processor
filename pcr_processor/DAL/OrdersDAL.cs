@@ -109,5 +109,43 @@ namespace pcr_processor.DAL
 			mySqlConnection.Close();
 			mySqlConnection.Dispose();
 		}
+
+		public static void UpdateOrdersWithNoSanitizedLaboratoryId(string commandString, string laboratoryId, ulong id)
+		{
+			MySqlConnection mySqlConnection = new MySqlConnection(ConfigurationManager.AppSettings["myConnectionString"].ToString());
+			mySqlConnection.Open();
+
+			MySqlCommand cmd = new MySqlCommand(commandString, mySqlConnection);
+			cmd.CommandType = CommandType.StoredProcedure;
+			cmd.Parameters.AddWithValue("@LaboratoryIdParameter", laboratoryId);
+			cmd.Parameters.AddWithValue("@IdParameter", id);
+			cmd.ExecuteNonQuery();
+
+			cmd.Dispose();
+			mySqlConnection.Close();
+			mySqlConnection.Dispose();
+		}
+
+		public static DataTable FilterOrdersByLaboratoryIdSanitized(string commandString, string LaboratoryId)
+		{
+			DataTable orders = new DataTable();
+
+			MySqlConnection mySqlConnection = new MySqlConnection(ConfigurationManager.AppSettings["myConnectionString"].ToString());
+			mySqlConnection.Open();
+
+			MySqlCommand cmd = new MySqlCommand(commandString, mySqlConnection);
+			cmd.CommandType = CommandType.StoredProcedure;
+			cmd.Parameters.AddWithValue("@LaboratoryIdParameter", LaboratoryId);
+
+			MySqlDataAdapter adt = new MySqlDataAdapter(cmd);
+			adt.Fill(orders);
+
+			adt.Dispose();
+			cmd.Dispose();
+			mySqlConnection.Close();
+			mySqlConnection.Dispose();
+
+			return orders;
+		}
 	}
 }

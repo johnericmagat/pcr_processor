@@ -30,5 +30,15 @@ namespace pcr_processor.BAL
 		{
 			OrdersDAL.UpdateOrders("UpdateOrders", orders);
 		}
+
+		public static void UpdateOrdersWithNoSanitizedLaboratoryId(string laboratoryId, ulong id)
+		{
+			OrdersDAL.UpdateOrdersWithNoSanitizedLaboratoryId("UpdateOrdersWithNoSanitizedLaboratoryId", laboratoryId, id);
+		}
+
+		public static DataTable FilterOrdersByLaboratoryIdSanitized(string LaboratoryId)
+		{
+			return OrdersDAL.FilterOrdersByLaboratoryIdSanitized("FilterOrdersByLaboratoryIdSanitized", LaboratoryId);
+		}
 	}
 }

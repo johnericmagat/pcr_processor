@@ -6,6 +6,7 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -93,6 +94,14 @@ namespace pcr_processor
 							OrdersBAL.UpdateOrders(objOrders);
 						}
 
+						DataTable ordersByLabIdSanitized = new DataTable();
+						ordersByLabIdSanitized = OrdersBAL.FilterOrdersByLaboratoryIdSanitized(ordersRow[0].ToString());
+
+						string laboratoryId = ordersByLabIdSanitized.AsEnumerable().Select(r => r.Field<string>("laboratory_id")).LastOrDefault();
+						ulong id = ordersByLabIdSanitized.AsEnumerable().Select(r => r.Field<UInt64>("id")).LastOrDefault();
+
+						OrdersBAL.UpdateOrdersWithNoSanitizedLaboratoryId(laboratoryId, id);
+
 						updated++;
 
 						double val = updated / count;
@@ -125,6 +134,14 @@ namespace pcr_processor
 							objOrders.Order_number = usersRow[1].ToString() + "-" + lastOrderNumber.ToString();
 							OrdersBAL.UpdateOrders(objOrders);
 						}
+
+						DataTable ordersByLabIdSanitized = new DataTable();
+						ordersByLabIdSanitized = OrdersBAL.FilterOrdersByLaboratoryIdSanitized(ordersDashOneRow[0].ToString());
+
+						string laboratoryId = ordersByLabIdSanitized.AsEnumerable().Select(r => r.Field<string>("laboratory_id")).LastOrDefault();
+						ulong id = ordersByLabIdSanitized.AsEnumerable().Select(r => r.Field<UInt64>("id")).LastOrDefault();
+
+						OrdersBAL.UpdateOrdersWithNoSanitizedLaboratoryId(laboratoryId, id);
 
 						updated++;
 
