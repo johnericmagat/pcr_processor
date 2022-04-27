@@ -31,14 +31,19 @@ namespace pcr_processor.BAL
 			OrdersDAL.UpdateOrders("UpdateOrders", orders);
 		}
 
+		public static OrdersModel ViewSanitizedLaboratoryId(string LaboratoryId)
+		{
+			return OrdersDAL.ViewSanitizedLaboratoryId("ViewSanitizedLaboratoryId", LaboratoryId);
+		}
+
 		public static void UpdateOrdersWithNoSanitizedLaboratoryId(string laboratoryId, ulong id)
 		{
 			OrdersDAL.UpdateOrdersWithNoSanitizedLaboratoryId("UpdateOrdersWithNoSanitizedLaboratoryId", laboratoryId, id);
 		}
 
-		public static DataTable FilterOrdersByLaboratoryIdSanitized(string LaboratoryId)
+		public static void DeleteDuplicateLaboratoryId(string laboratoryId)
 		{
-			return OrdersDAL.FilterOrdersByLaboratoryIdSanitized("FilterOrdersByLaboratoryIdSanitized", LaboratoryId);
+			OrdersDAL.DeleteDuplicateLaboratoryId("DeleteDuplicateLaboratoryId", laboratoryId);
 		}
 	}
 }

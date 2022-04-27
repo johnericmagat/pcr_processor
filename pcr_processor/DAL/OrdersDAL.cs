@@ -110,6 +110,33 @@ namespace pcr_processor.DAL
 			mySqlConnection.Dispose();
 		}
 
+		public static OrdersModel ViewSanitizedLaboratoryId(string commandString, string LaboratoryId)
+		{
+			OrdersModel order = new OrdersModel();
+			DataTable orders = new DataTable();
+
+			MySqlConnection mySqlConnection = new MySqlConnection(ConfigurationManager.AppSettings["myConnectionString"].ToString());
+			mySqlConnection.Open();
+
+			MySqlCommand cmd = new MySqlCommand(commandString, mySqlConnection);
+			cmd.CommandType = CommandType.StoredProcedure;
+			cmd.Parameters.AddWithValue("@LaboratoryIdParameter", LaboratoryId);
+
+			MySqlDataAdapter adt = new MySqlDataAdapter(cmd);
+			adt.Fill(orders);
+			adt.Dispose();
+
+			order.Id = Int32.Parse(orders.Rows[0][0].ToString());
+			order.Laboratory_id = orders.Rows[0][1].ToString();
+
+			cmd.Dispose();
+			mySqlConnection.Close();
+			mySqlConnection.Dispose();
+			orders.Dispose();
+
+			return order;
+		}
+
 		public static void UpdateOrdersWithNoSanitizedLaboratoryId(string commandString, string laboratoryId, ulong id)
 		{
 			MySqlConnection mySqlConnection = new MySqlConnection(ConfigurationManager.AppSettings["myConnectionString"].ToString());
@@ -126,26 +153,19 @@ namespace pcr_processor.DAL
 			mySqlConnection.Dispose();
 		}
 
-		public static DataTable FilterOrdersByLaboratoryIdSanitized(string commandString, string LaboratoryId)
+		public static void DeleteDuplicateLaboratoryId(string commandString, string laboratoryId)
 		{
-			DataTable orders = new DataTable();
-
 			MySqlConnection mySqlConnection = new MySqlConnection(ConfigurationManager.AppSettings["myConnectionString"].ToString());
 			mySqlConnection.Open();
 
 			MySqlCommand cmd = new MySqlCommand(commandString, mySqlConnection);
 			cmd.CommandType = CommandType.StoredProcedure;
-			cmd.Parameters.AddWithValue("@LaboratoryIdParameter", LaboratoryId);
+			cmd.Parameters.AddWithValue("@LaboratoryIdParameter", laboratoryId);
+			cmd.ExecuteNonQuery();
 
-			MySqlDataAdapter adt = new MySqlDataAdapter(cmd);
-			adt.Fill(orders);
-
-			adt.Dispose();
 			cmd.Dispose();
 			mySqlConnection.Close();
 			mySqlConnection.Dispose();
-
-			return orders;
 		}
 	}
 }

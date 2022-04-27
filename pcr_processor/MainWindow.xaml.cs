@@ -81,6 +81,8 @@ namespace pcr_processor
 
 						TxtUserRecords.Text = count.ToString();
 
+						OrdersBAL.DeleteDuplicateLaboratoryId(ordersRow[0].ToString());
+
 						DataTable ordersByLabId = new DataTable();
 						ordersByLabId = OrdersBAL.FilterOrdersByLaboratoryId(ordersRow[0].ToString());
 
@@ -94,13 +96,10 @@ namespace pcr_processor
 							OrdersBAL.UpdateOrders(objOrders);
 						}
 
-						DataTable ordersByLabIdSanitized = new DataTable();
-						ordersByLabIdSanitized = OrdersBAL.FilterOrdersByLaboratoryIdSanitized(ordersRow[0].ToString());
+						OrdersModel order = new OrdersModel();
+						order = OrdersBAL.ViewSanitizedLaboratoryId(ordersRow[0].ToString());
 
-						string laboratoryId = ordersByLabIdSanitized.AsEnumerable().Select(r => r.Field<string>("laboratory_id")).LastOrDefault();
-						ulong id = ordersByLabIdSanitized.AsEnumerable().Select(r => r.Field<UInt64>("id")).LastOrDefault();
-
-						OrdersBAL.UpdateOrdersWithNoSanitizedLaboratoryId(laboratoryId, id);
+						OrdersBAL.UpdateOrdersWithNoSanitizedLaboratoryId(order.Laboratory_id, UInt64.Parse(order.Id.ToString()));
 
 						updated++;
 
@@ -122,6 +121,8 @@ namespace pcr_processor
 
 						TxtUserRecords.Text = count.ToString();
 
+						OrdersBAL.DeleteDuplicateLaboratoryId(ordersDashOneRow[0].ToString());
+
 						DataTable ordersByLabId = new DataTable();
 						ordersByLabId = OrdersBAL.FilterOrdersByLaboratoryId(ordersDashOneRow[0].ToString());
 
@@ -135,13 +136,10 @@ namespace pcr_processor
 							OrdersBAL.UpdateOrders(objOrders);
 						}
 
-						DataTable ordersByLabIdSanitized = new DataTable();
-						ordersByLabIdSanitized = OrdersBAL.FilterOrdersByLaboratoryIdSanitized(ordersDashOneRow[0].ToString());
+						OrdersModel order = new OrdersModel();
+						order = OrdersBAL.ViewSanitizedLaboratoryId(ordersDashOneRow[0].ToString());
 
-						string laboratoryId = ordersByLabIdSanitized.AsEnumerable().Select(r => r.Field<string>("laboratory_id")).LastOrDefault();
-						ulong id = ordersByLabIdSanitized.AsEnumerable().Select(r => r.Field<UInt64>("id")).LastOrDefault();
-
-						OrdersBAL.UpdateOrdersWithNoSanitizedLaboratoryId(laboratoryId, id);
+						OrdersBAL.UpdateOrdersWithNoSanitizedLaboratoryId(order.Laboratory_id, UInt64.Parse(order.Id.ToString()));
 
 						updated++;
 
