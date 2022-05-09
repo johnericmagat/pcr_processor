@@ -99,7 +99,7 @@ namespace pcr_processor
 						OrdersModel order = new OrdersModel();
 						order = OrdersBAL.ViewSanitizedLaboratoryId(ordersRow[0].ToString());
 
-						OrdersBAL.UpdateOrdersWithNoSanitizedLaboratoryId(order.Laboratory_id, UInt64.Parse(order.Id.ToString()));
+						OrdersBAL.UpdateOrdersWithNoSanitizedLaboratoryId(ordersRow[0].ToString(), UInt64.Parse(order.Id.ToString()));
 
 						updated++;
 
@@ -139,7 +139,7 @@ namespace pcr_processor
 						OrdersModel order = new OrdersModel();
 						order = OrdersBAL.ViewSanitizedLaboratoryId(ordersDashOneRow[0].ToString());
 
-						OrdersBAL.UpdateOrdersWithNoSanitizedLaboratoryId(order.Laboratory_id, UInt64.Parse(order.Id.ToString()));
+						OrdersBAL.UpdateOrdersWithNoSanitizedLaboratoryId(ordersDashOneRow[0].ToString(), UInt64.Parse(order.Id.ToString()));
 
 						updated++;
 
