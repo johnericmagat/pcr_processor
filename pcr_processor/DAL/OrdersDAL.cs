@@ -103,6 +103,7 @@ namespace pcr_processor.DAL
 			cmd.CommandType = CommandType.StoredProcedure;
 			cmd.Parameters.AddWithValue("@IdParameter", orders.Id);
 			cmd.Parameters.AddWithValue("@OrderNumberParameter", orders.Order_number);
+			cmd.Parameters.AddWithValue("@UserNameParameter", orders.UserName);
 			cmd.ExecuteNonQuery();
 
 			cmd.Dispose();

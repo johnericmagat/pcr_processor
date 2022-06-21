@@ -93,6 +93,7 @@ namespace pcr_processor
 							OrdersModel objOrders = new OrdersModel();
 							objOrders.Id = Int32.Parse(ordersByLabIdRow[0].ToString());
 							objOrders.Order_number = usersRow[1].ToString() + "-" + lastOrderNumber.ToString();
+							objOrders.UserName = usersRow[1].ToString();
 							OrdersBAL.UpdateOrders(objOrders);
 						}
 
@@ -133,6 +134,7 @@ namespace pcr_processor
 							OrdersModel objOrders = new OrdersModel();
 							objOrders.Id = Int32.Parse(ordersByLabIdRow[0].ToString());
 							objOrders.Order_number = usersRow[1].ToString() + "-" + lastOrderNumber.ToString();
+							objOrders.UserName = usersRow[1].ToString();
 							OrdersBAL.UpdateOrders(objOrders);
 						}
 
