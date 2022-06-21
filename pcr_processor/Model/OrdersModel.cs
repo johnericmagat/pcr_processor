@@ -43,5 +43,6 @@ namespace pcr_processor.Model
 		public String Test_time { get; set; }
 		public String Issue_time { get; set; }
 		public Int32 Block_flag { get; set; }
+		public String UserName { get; set; }
 	}
 }
